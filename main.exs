@@ -6,6 +6,14 @@ defmodule Main do
   def last([]), do: nil
   def last([x]), do: x
   def last([_ | rest]), do: last(rest)
+
+  @doc """
+    solution for Problem 1.02
+  """
+  def last_but_one([]), do: nil
+  def last_but_one([_]), do: nil
+  def last_but_one([x, _]), do: x
+  def last_but_one([_ | xs]), do: last_but_one(xs)
 end
 
 ExUnit.start()
@@ -18,15 +26,19 @@ defmodule MainTest do
   @doc """
     Test for Problem 1.01
   """
-  test "last for []" do
+  test "last" do
     assert last([]) == nil
-  end
-
-  test "last for list with 1 element" do
     assert last(["a"]) == "a"
+    assert last(["a", 1, 2, 0.5]) == 0.5
   end
 
-  test "last for list with more than 1 element" do
-    assert last(["a", 1, 2, 0.5]) == 0.5
+  @doc """
+    Test for Problem 1.02
+  """
+  test "last but one" do
+    assert last_but_one([]) == nil
+    assert last_but_one([2]) == nil
+    assert last_but_one([1, 2]) == 1
+    assert last_but_one(Enum.to_list(1..100)) == 99
   end
 end
