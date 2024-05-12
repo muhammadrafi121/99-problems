@@ -45,6 +45,13 @@ defmodule Main do
     solution for problem 1.06
   """
   def is_palindrome(xs), do: xs == list_reverse(xs)
+
+  @doc """
+    solution for problem 1.07
+  """
+  def flatten(x) when not is_list(x), do: [x]
+  def flatten([]), do: []
+  def flatten([x | xs]), do: flatten(x) ++ flatten(xs)
 end
 
 ExUnit.start()
@@ -109,5 +116,13 @@ defmodule MainTest do
     assert is_palindrome([1, 2, 3, 4]) == false
     assert is_palindrome([1, 2, 3, 2, 1]) == true
     assert is_palindrome('madam') == true
+  end
+
+  @doc """
+    test for problem 1.07
+  """
+  test "flatten list" do
+    assert flatten([1, 2, [3, 4, 5], 6]) == [1, 2, 3, 4, 5, 6]
+    assert flatten([1, 2, [[3, 4], 5], 6]) == [1, 2, 3, 4, 5, 6]
   end
 end
