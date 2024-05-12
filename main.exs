@@ -80,6 +80,19 @@ defmodule Main do
   def encode(xs) do
     for x <- pack(xs), do: {list_length(x), hd(x)}
   end
+
+  @doc """
+    solution for problem 1.11
+  """
+  def encode_modified(xs) do
+    for x <- pack(xs) do
+      if list_length(x) == 1 do
+        hd(x)
+      else
+        {list_length(x), hd(x)}
+      end
+    end
+  end
 end
 
 ExUnit.start()
@@ -179,5 +192,15 @@ defmodule MainTest do
     assert encode([1]) == [{1, 1}]
     assert encode([1, 2, 3, 4, 5]) == [{1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}]
     assert encode([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [{4, 1}, {1, 2}, {1, 3}, {3, 4}, {2, 2}, {1, 5}]
+  end
+
+  @doc """
+    test for problem 1.11
+  """
+  test "Modified run-length encoding." do
+    assert encode_modified([]) == []
+    assert encode_modified([1]) == [1]
+    assert encode_modified([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    assert encode_modified([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [{4, 1}, 2, 3, {3, 4}, {2, 2}, 5]
   end
 end
