@@ -52,6 +52,13 @@ defmodule Main do
   def flatten(x) when not is_list(x), do: [x]
   def flatten([]), do: []
   def flatten([x | xs]), do: flatten(x) ++ flatten(xs)
+
+  @doc """
+    solution for problem 1.08
+  """
+  def compress([]), do: []
+  def compress([x, y | rest]) when x == y, do: [x] ++ compress(rest)
+  def compress([x | rest]), do: [x] ++ compress(rest)
 end
 
 ExUnit.start()
@@ -124,5 +131,12 @@ defmodule MainTest do
   test "flatten list" do
     assert flatten([1, 2, [3, 4, 5], 6]) == [1, 2, 3, 4, 5, 6]
     assert flatten([1, 2, [[3, 4], 5], 6]) == [1, 2, 3, 4, 5, 6]
+  end
+
+  @doc """
+    test for problem 1.08
+  """
+  test "eliminate consecutive duplicates of list elements." do
+    assert compress([1, 2, 2, 3, 4, 5, 5, 2, 2, 6, 7]) == [1, 2, 3, 4, 5, 2, 6, 7]
   end
 end
