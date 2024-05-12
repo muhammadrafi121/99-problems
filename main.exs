@@ -38,6 +38,11 @@ defmodule Main do
   """
   def list_reverse([]), do: []
   def list_reverse([x | xs]), do: list_reverse(xs) ++ [x]
+
+  @doc """
+    solution for problem 1.06
+  """
+  def is_palindrome(xs), do: xs == list_reverse(xs)
 end
 
 ExUnit.start()
@@ -92,5 +97,15 @@ defmodule MainTest do
   test "reverse a list" do
     assert list_reverse([]) == []
     assert list_reverse([1, 2, 3, 4]) == [4, 3, 2, 1]
+  end
+
+  @doc """
+    test for problem 1.06
+  """
+  test "is palindrome" do
+    assert is_palindrome([]) == true
+    assert is_palindrome([1, 2, 3, 4]) == false
+    assert is_palindrome([1, 2, 3, 2, 1]) == true
+    assert is_palindrome('madam') == true
   end
 end
