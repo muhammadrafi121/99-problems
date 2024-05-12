@@ -101,6 +101,24 @@ defmodule Main do
   def decode_modified([[2, x] | rest]), do: [x, x] ++ decode_modified(rest)
   def decode_modified([[n, x] | rest]), do: [x] ++ decode_modified([[n-1, x] | rest])
   def decode_modified([x | rest]), do: [x] ++ decode_modified(rest)
+
+  @doc """
+    solution for problem 1.13
+  """
+  def encode_direct([]), do: []
+  def encode_direct([x | rest]), do: encode_direct(1, x, rest)
+  def encode_direct(n, x, []), do: [encode_element(n, x)]
+  def encode_direct(n, x, [y | rest]) do
+    cond do
+      x == y ->
+        encode_direct(n+1, x, rest)
+      true ->
+        [encode_element(n, x) | encode_direct(1, y, rest)]
+    end
+  end
+
+  def encode_element(1, x), do: x
+  def encode_element(n, x), do: [n, x]
 end
 
 ExUnit.start()
@@ -220,5 +238,15 @@ defmodule MainTest do
     assert decode_modified([1]) == [1]
     assert decode_modified([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
     assert decode_modified([[4, 1], 2, 3, [3, 4], [2, 2], 5]) == [1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]
+  end
+
+  @doc """
+    test for problem 1.13
+  """
+  test "Run-length encoding of a list (direct solution)." do
+    assert encode_direct([]) == []
+    assert encode_direct([1]) == [1]
+    assert encode_direct([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    assert encode_direct([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [[4, 1], 2, 3, [3, 4], [2, 2], 5]
   end
 end
