@@ -32,6 +32,12 @@ defmodule Main do
   """
   def list_length([]), do: 0
   def list_length([_ | xs]), do: 1 + list_length(xs)
+
+  @doc """
+    solution for problem 1.05
+  """
+  def list_reverse([]), do: []
+  def list_reverse([x | xs]), do: list_reverse(xs) ++ [x]
 end
 
 ExUnit.start()
@@ -78,5 +84,13 @@ defmodule MainTest do
     assert list_length([1]) == 1
     assert list_length([1, 2, 3]) == 3
     assert list_length(Enum.to_list(1..1000)) == 1000
+  end
+
+  @doc """
+    test for problem 1.05
+  """
+  test "reverse a list" do
+    assert list_reverse([]) == []
+    assert list_reverse([1, 2, 3, 4]) == [4, 3, 2, 1]
   end
 end
