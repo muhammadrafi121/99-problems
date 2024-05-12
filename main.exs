@@ -30,8 +30,10 @@ defmodule Main do
   @doc """
     solution for problem 1.04
   """
-  def list_length([]), do: 0
-  def list_length([_ | xs]), do: 1 + list_length(xs)
+  def list_length(xs), do: length_tail(0, xs)
+
+  def length_tail(acc, []), do: acc
+  def length_tail(acc, [_ | xs]), do: length_tail(acc+1, xs)
 
   @doc """
     solution for problem 1.05
