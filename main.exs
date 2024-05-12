@@ -59,6 +59,20 @@ defmodule Main do
   def compress([]), do: []
   def compress([x, y | rest]) when x == y, do: [x] ++ compress(rest)
   def compress([x | rest]), do: [x] ++ compress(rest)
+
+  @doc """
+    solution for problem 1.09
+  """
+  def pack([]), do: []
+  def pack([x]), do: [[x]]
+  def pack([x | rest]) do
+    cond do
+      x == hd(rest) ->
+        [[x] ++ hd(pack(rest)) | tl(pack(rest))]
+      true ->
+        [[x] | pack(rest)]
+    end
+  end
 end
 
 ExUnit.start()
@@ -138,5 +152,15 @@ defmodule MainTest do
   """
   test "eliminate consecutive duplicates of list elements." do
     assert compress([1, 2, 2, 3, 4, 5, 5, 2, 2, 6, 7]) == [1, 2, 3, 4, 5, 2, 6, 7]
+  end
+
+  @doc """
+    test for problem 1.09
+  """
+  test "Pack consecutive duplicates of list elements into sublists." do
+    assert pack([]) == []
+    assert pack([1]) == [[1]]
+    assert pack([1, 2, 3, 4, 5]) == [[1], [2], [3], [4], [5]]
+    assert pack([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [[1, 1, 1, 1], [2], [3], [4, 4, 4], [2, 2], [5]]
   end
 end
