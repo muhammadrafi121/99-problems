@@ -123,8 +123,16 @@ defmodule Main do
   @doc """
     solution for problem 1.14
   """
-  def duplicate([]), do: []
-  def duplicate([x | rest]), do: [x, x] ++ duplicate(rest)
+  def dupli([]), do: []
+  def dupli([x | rest]), do: [x, x] ++ dupli(rest)
+
+  @doc """
+    solution for problem 1.15
+  """
+  def repli([], _), do: []
+  def repli([x], 1), do: [x]
+  def repli([x], n), do: [x] ++ repli([x], n-1)
+  def repli([x | rest], n), do: repli([x], n) ++ repli(rest, n)
 end
 
 ExUnit.start()
@@ -260,8 +268,18 @@ defmodule MainTest do
     test for problem 1.14
   """
   test "Duplicate the elements of a list." do
-    assert duplicate([]) == []
-    assert duplicate([1]) == [1, 1]
-    assert duplicate([1, 2, 3, 3, 4, 5, 6]) == [1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6]
+    assert dupli([]) == []
+    assert dupli([1]) == [1, 1]
+    assert dupli([1, 2, 3, 3, 4, 5, 6]) == [1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6]
+  end
+
+  @doc """
+    test for problem 1.15
+  """
+  test "Duplicate the elements of a list a given number of times." do
+    assert repli([], 2) == []
+    assert repli([1], 1) == [1]
+    assert repli([1], 4) == [1, 1, 1, 1]
+    assert repli([1, 2, 3, 3, 4, 5, 6], 3) == [1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
   end
 end
