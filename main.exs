@@ -119,6 +119,12 @@ defmodule Main do
 
   def encode_element(1, x), do: x
   def encode_element(n, x), do: [n, x]
+
+  @doc """
+    solution for problem 1.14
+  """
+  def duplicate([]), do: []
+  def duplicate([x | rest]), do: [x, x] ++ duplicate(rest)
 end
 
 ExUnit.start()
@@ -248,5 +254,14 @@ defmodule MainTest do
     assert encode_direct([1]) == [1]
     assert encode_direct([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
     assert encode_direct([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [[4, 1], 2, 3, [3, 4], [2, 2], 5]
+  end
+
+  @doc """
+    test for problem 1.14
+  """
+  test "Duplicate the elements of a list." do
+    assert duplicate([]) == []
+    assert duplicate([1]) == [1, 1]
+    assert duplicate([1, 2, 3, 3, 4, 5, 6]) == [1, 1, 2, 2, 3, 3, 3, 3, 4, 4, 5, 5, 6, 6]
   end
 end
