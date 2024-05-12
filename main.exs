@@ -78,7 +78,7 @@ defmodule Main do
     solution for problem 1.10
   """
   def encode(xs) do
-    for x <- pack(xs), do: {list_length(x), hd(x)}
+    for x <- pack(xs), do: [list_length(x), hd(x)]
   end
 
   @doc """
@@ -89,10 +89,18 @@ defmodule Main do
       if list_length(x) == 1 do
         hd(x)
       else
-        {list_length(x), hd(x)}
+        [list_length(x), hd(x)]
       end
     end
   end
+
+  @doc """
+    solution for problem 1.12
+  """
+  def decode_modified([]), do: []
+  def decode_modified([[2, x] | rest]), do: [x, x] ++ decode_modified(rest)
+  def decode_modified([[n, x] | rest]), do: [x] ++ decode_modified([[n-1, x] | rest])
+  def decode_modified([x | rest]), do: [x] ++ decode_modified(rest)
 end
 
 ExUnit.start()
@@ -189,9 +197,9 @@ defmodule MainTest do
   """
   test "Run-length encoding of a list." do
     assert encode([]) == []
-    assert encode([1]) == [{1, 1}]
-    assert encode([1, 2, 3, 4, 5]) == [{1, 1}, {1, 2}, {1, 3}, {1, 4}, {1, 5}]
-    assert encode([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [{4, 1}, {1, 2}, {1, 3}, {3, 4}, {2, 2}, {1, 5}]
+    assert encode([1]) == [[1, 1]]
+    assert encode([1, 2, 3, 4, 5]) == [[1, 1], [1, 2], [1, 3], [1, 4], [1, 5]]
+    assert encode([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [[4, 1], [1, 2], [1, 3], [3, 4], [2, 2], [1, 5]]
   end
 
   @doc """
@@ -201,6 +209,16 @@ defmodule MainTest do
     assert encode_modified([]) == []
     assert encode_modified([1]) == [1]
     assert encode_modified([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
-    assert encode_modified([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [{4, 1}, 2, 3, {3, 4}, {2, 2}, 5]
+    assert encode_modified([1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]) == [[4, 1], 2, 3, [3, 4], [2, 2], 5]
+  end
+
+  @doc """
+    test for problem 1.12
+  """
+  test "Decode a run-length encoded list." do
+    assert decode_modified([]) == []
+    assert decode_modified([1]) == [1]
+    assert decode_modified([1, 2, 3, 4, 5]) == [1, 2, 3, 4, 5]
+    assert decode_modified([[4, 1], 2, 3, [3, 4], [2, 2], 5]) == [1, 1, 1, 1, 2, 3, 4, 4, 4, 2, 2, 5]
   end
 end
