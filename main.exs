@@ -141,6 +141,15 @@ defmodule Main do
   def drop_element([], _, _), do: []
   def drop_element([_ | rest], count, 1), do: drop_element(rest, count, count)
   def drop_element([x | rest], count, n), do: [x] ++ drop_element(rest, count, n-1)
+
+  @doc """
+    solution for problem 1.17
+  """
+  def split([x | rest], n) when n > 0 do
+    {first, last} = split(rest, n - 1)
+    {[x | first], last}
+  end
+  def split(xs, _), do: {[], xs}
 end
 
 ExUnit.start()
@@ -298,5 +307,13 @@ defmodule MainTest do
     assert drop_every([], 2) == []
     assert drop_every([1, 2, 3, 4, 5], 2) == [1, 3, 5]
     assert drop_every([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) == [1, 2, 4, 5, 7, 8, 10]
+  end
+
+  @doc """
+    test for problem 1.17
+  """
+  test "Split a list into two parts; the length of the first part is given." do
+    assert split([], 2) == {[], []}
+    assert split([1, 2, 3, 4, 5], 2) == {[1, 2], [3, 4, 5]}
   end
 end
