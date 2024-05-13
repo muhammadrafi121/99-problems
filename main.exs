@@ -150,6 +150,11 @@ defmodule Main do
     {[x | first], last}
   end
   def split(xs, _), do: {[], xs}
+
+  @doc """
+    solution for problem 1.18
+  """
+  def slice(xs, i, j), do: Enum.drop(Enum.take(xs, j), i-1)
 end
 
 ExUnit.start()
@@ -315,5 +320,14 @@ defmodule MainTest do
   test "Split a list into two parts; the length of the first part is given." do
     assert split([], 2) == {[], []}
     assert split([1, 2, 3, 4, 5], 2) == {[1, 2], [3, 4, 5]}
+  end
+
+  @doc """
+    test for problem 1.18
+  """
+  test "Extract a slice from a list." do
+    assert slice([], 1, 2) == []
+    assert slice([1, 2, 3, 4, 5], 2, 2) == [2]
+    assert slice([1, 2, 3, 4, 5, 6, 7, 8, 9], 2, 7) == [2, 3, 4, 5, 6, 7]
   end
 end
