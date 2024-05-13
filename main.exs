@@ -133,6 +133,14 @@ defmodule Main do
   def repli([x], 1), do: [x]
   def repli([x], n), do: [x] ++ repli([x], n-1)
   def repli([x | rest], n), do: repli([x], n) ++ repli(rest, n)
+
+  @doc """
+    solution for problem 1.16
+  """
+  def drop_every(xs, n), do: drop_element(xs, n, n)
+  def drop_element([], _, _), do: []
+  def drop_element([_ | rest], count, 1), do: drop_element(rest, count, count)
+  def drop_element([x | rest], count, n), do: [x] ++ drop_element(rest, count, n-1)
 end
 
 ExUnit.start()
@@ -281,5 +289,14 @@ defmodule MainTest do
     assert repli([1], 1) == [1]
     assert repli([1], 4) == [1, 1, 1, 1]
     assert repli([1, 2, 3, 3, 4, 5, 6], 3) == [1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6]
+  end
+
+  @doc """
+    test for problem 1.16
+  """
+  test "Drop every N'th element from a list." do
+    assert drop_every([], 2) == []
+    assert drop_every([1, 2, 3, 4, 5], 2) == [1, 3, 5]
+    assert drop_every([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 3) == [1, 2, 4, 5, 7, 8, 10]
   end
 end
