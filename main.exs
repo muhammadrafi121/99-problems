@@ -173,6 +173,15 @@ defmodule Main do
     {a, b} = remove_at(rest, n-1)
     {a, [x | b]}
   end
+
+  @doc """
+    solution for problem 1.21
+  """
+  def insert_at(x, xs, 1), do: [x] ++ xs
+  def insert_at(x, [y | rest], n) do
+    z = insert_at(x, rest, n-1)
+    [y | z]
+  end
 end
 
 ExUnit.start()
@@ -363,5 +372,13 @@ defmodule MainTest do
   test "Remove the K'th element from a list." do
     assert remove_at([1, 2, 3, 4], 2) == {2, [1, 3, 4]}
     assert remove_at([1, 2, 3, 4, 5], 3) == {3, [1, 2, 4, 5]}
+  end
+
+  @doc """
+    test for problem 1.21
+  """
+  test "Insert an element at a given position into a list." do
+    assert insert_at(2, [1, 3, 4, 5], 2) == [1, 2, 3, 4, 5]
+    assert insert_at(2, [1, 3, 4, 5], 3) == [1, 3, 2, 4, 5]
   end
 end
