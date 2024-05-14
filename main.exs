@@ -163,6 +163,16 @@ defmodule Main do
   def rotate(xs, 0), do: xs
   def rotate([x | xs], n) when n > 0, do: rotate(xs ++ [x], n-1)
   def rotate(xs, n), do: rotate(xs, list_length(xs) + n)
+
+  @doc """
+    solution for problem 1.20
+  """
+  def remove_at([], _), do: {nil, []}
+  def remove_at([x | rest], 1), do: {x, rest}
+  def remove_at([x | rest], n) do
+    {a, b} = remove_at(rest, n-1)
+    {a, [x | b]}
+  end
 end
 
 ExUnit.start()
@@ -345,5 +355,13 @@ defmodule MainTest do
   test "Rotate a list N places to the left." do
     assert rotate('abcdefgh', 3) == 'defghabc'
     assert rotate('abcdefgh', -2) == 'ghabcdef'
+  end
+
+  @doc """
+    test for problem 1.20
+  """
+  test "Remove the K'th element from a list." do
+    assert remove_at([1, 2, 3, 4], 2) == {2, [1, 3, 4]}
+    assert remove_at([1, 2, 3, 4, 5], 3) == {3, [1, 2, 4, 5]}
   end
 end
