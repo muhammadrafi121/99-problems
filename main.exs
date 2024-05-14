@@ -187,6 +187,16 @@ defmodule Main do
     solution for problem 1.22
   """
   def range(m, n), do: Enum.to_list(m..n)
+
+  @doc """
+    solution for problem 1.23
+  """
+  def rnd_select(_, 0), do: []
+  def rnd_select(xs, n) do
+    rnd = :rand.uniform(length(xs))
+    {a, b} = remove_at(xs, rnd)
+    [a] ++ rnd_select(b, n-1)
+  end
 end
 
 ExUnit.start()
@@ -393,5 +403,13 @@ defmodule MainTest do
   test "Create a list containing all integers within a given range." do
     assert range(2, 10) == [2, 3, 4, 5, 6, 7, 8, 9, 10]
     assert range(4, 8) == [4, 5, 6, 7, 8]
+  end
+
+  @doc """
+    test for problem 1.23
+  """
+  test "Extract a given number of randomly selected elements from a list." do
+    assert length(rnd_select([1, 2, 3, 4, 5, 6], 3)) == 3
+    assert length(rnd_select([1, 2, 3, 4, 5, 6], 2)) == 2
   end
 end
