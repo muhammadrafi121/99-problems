@@ -182,6 +182,11 @@ defmodule Main do
     z = insert_at(x, rest, n-1)
     [y | z]
   end
+
+  @doc """
+    solution for problem 1.22
+  """
+  def range(m, n), do: Enum.to_list(m..n)
 end
 
 ExUnit.start()
@@ -380,5 +385,13 @@ defmodule MainTest do
   test "Insert an element at a given position into a list." do
     assert insert_at(2, [1, 3, 4, 5], 2) == [1, 2, 3, 4, 5]
     assert insert_at(2, [1, 3, 4, 5], 3) == [1, 3, 2, 4, 5]
+  end
+
+  @doc """
+    test for problem 1.22
+  """
+  test "Create a list containing all integers within a given range." do
+    assert range(2, 10) == [2, 3, 4, 5, 6, 7, 8, 9, 10]
+    assert range(4, 8) == [4, 5, 6, 7, 8]
   end
 end
