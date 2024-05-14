@@ -155,6 +155,14 @@ defmodule Main do
     solution for problem 1.18
   """
   def slice(xs, i, j), do: Enum.drop(Enum.take(xs, j), i-1)
+
+  @doc """
+    solution for problem 1.19
+  """
+  def rotate([], _), do: []
+  def rotate(xs, 0), do: xs
+  def rotate([x | xs], n) when n > 0, do: rotate(xs ++ [x], n-1)
+  def rotate(xs, n), do: rotate(xs, list_length(xs) + n)
 end
 
 ExUnit.start()
@@ -329,5 +337,13 @@ defmodule MainTest do
     assert slice([], 1, 2) == []
     assert slice([1, 2, 3, 4, 5], 2, 2) == [2]
     assert slice([1, 2, 3, 4, 5, 6, 7, 8, 9], 2, 7) == [2, 3, 4, 5, 6, 7]
+  end
+
+  @doc """
+    test for problem 1.19
+  """
+  test "Rotate a list N places to the left." do
+    assert rotate('abcdefgh', 3) == 'defghabc'
+    assert rotate('abcdefgh', -2) == 'ghabcdef'
   end
 end
