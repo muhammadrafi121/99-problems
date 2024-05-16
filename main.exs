@@ -202,6 +202,11 @@ defmodule Main do
     solution for problem 1.24
   """
   def lotto(m, n), do: rnd_select(range(1, m), n)
+
+  @doc """
+    solution for problem 1.25
+  """
+  def rnd_permu(xs), do: rnd_select(xs, list_length(xs))
 end
 
 ExUnit.start()
@@ -424,5 +429,13 @@ defmodule MainTest do
   test "Lotto: Draw N different random numbers from the set 1..M." do
     assert length(lotto(20, 5)) == 5
     assert length(lotto(50, 6)) == 6
+  end
+
+  @doc """
+    test for problem 1.25
+  """
+  test "Generate a random permutation of the elements of a list." do
+    assert length(rnd_permu([1, 2, 3, 4, 5])) == 5
+    assert length(rnd_permu([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])) == 10
   end
 end
