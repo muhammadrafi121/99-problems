@@ -207,6 +207,17 @@ defmodule Main do
     solution for problem 1.25
   """
   def rnd_permu(xs), do: rnd_select(xs, list_length(xs))
+
+  @doc """
+    solution for problem 1.26
+  """
+  def combinations(_, []), do: [[]]
+  def combinations(0, _), do: [[]]
+  def combinations(k, [x | xs]) do
+    start = for rest <- combinations(k-1, xs), do: [x | rest]
+    others = if k <= length(xs), do: combinations(k, xs), else: []
+    start ++ others
+  end
 end
 
 ExUnit.start()
@@ -437,5 +448,12 @@ defmodule MainTest do
   test "Generate a random permutation of the elements of a list." do
     assert length(rnd_permu([1, 2, 3, 4, 5])) == 5
     assert length(rnd_permu([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])) == 10
+  end
+
+  @doc """
+    test for problem 1.26
+  """
+  test "Generate the combinations of K distinct objects chosen from the N elements of a list" do
+    assert length(combinations(2, [1, 2, 3, 4])) == 6
   end
 end
