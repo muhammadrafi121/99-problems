@@ -197,6 +197,11 @@ defmodule Main do
     {a, b} = remove_at(xs, rnd)
     [a] ++ rnd_select(b, n-1)
   end
+
+  @doc """
+    solution for problem 1.24
+  """
+  def lotto(m, n), do: rnd_select(range(1, m), n)
 end
 
 ExUnit.start()
@@ -411,5 +416,13 @@ defmodule MainTest do
   test "Extract a given number of randomly selected elements from a list." do
     assert length(rnd_select([1, 2, 3, 4, 5, 6], 3)) == 3
     assert length(rnd_select([1, 2, 3, 4, 5, 6], 2)) == 2
+  end
+
+  @doc """
+    test for problem 1.24
+  """
+  test "Lotto: Draw N different random numbers from the set 1..M." do
+    assert length(lotto(20, 5)) == 5
+    assert length(lotto(50, 6)) == 6
   end
 end
